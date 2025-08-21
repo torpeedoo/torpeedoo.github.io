@@ -1,45 +1,84 @@
 /* version 1.0.1 */
-
 body {
 margin: 0;
 padding: 0;
-background-color: #1A1A1A;
+background-color: #050505;
 line-height: 1.5;
-font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;;
+font-family: 'Courier New', Courier, monospace;
 }
 h1, h2, h3, h4, h5, h6, h7, h8 {
-color: #B5E853;
+color: rgb(0, 255, 0);
 line-height: 1.5;
-font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;;
+font-size:larger;
+font-family: 'Courier New', Courier, monospace;
 text-align: left;
 margin: 0 0 20px;
+text-shadow:
+    0 0 10px rgb(0, 200, 0),
+    0 0 92px rgb(0, 125, 0),
+    0 0 100px rgb(0, 60, 0);
+padding-left: 30px;
+}
+.navbar {
+    font-size:larger;
+    text-decoration: none;
+    color: rgb(0, 255, 0);
+    line-height: 1.5;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: left;
+    margin: 0 0 20px;
+    font-weight: bold;
+    text-shadow:
+        0 0 10px rgb(0, 200, 0),
+        0 0 92px rgb(0, 125, 0),
+        0 0 100px rgb(0, 60, 0);
+}
+.navbar:hover{
+    color: rgb(0, 131, 0);
+    text-shadow:
+        0 0 10px rgb(0, 49, 0),
+        0 0 92px rgb(0, 71, 0),
+        0 0 100px rgb(0, 60, 0);
 }
 p {
-color: #FFFFFF;
+color: rgb(0, 255, 0);
 padding-left: 30px;
 font-size: 15px;
-font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;;
+font-family: 'Courier New', Courier, monospace;
+text-shadow:
+    0 0 10px rgb(0, 200, 0),
+    0 0 92px rgb(0, 125, 0),
+    0 0 100px rgb(0, 60, 0);
 }
 .hr {
 border: 0;
-border-top: 2px dashed #B5E853;
+border-top: 2px solid rgb(0, 255, 0);
+box-shadow: 
+0 0 10px rgb(0, 200, 0),
+0 0 92px rgb(0, 125, 0),
+0 0 200px rgb(0, 60, 0);
 }
 li {
-color: #FFFFFF;
+color: rgb(0, 255, 0);
 font-size: 15px;
-font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;;
+font-family: 'Courier New', Courier, monospace;
 }
 .button {
 text-decoration: none;
 text-align: left;
-background-color: #121212;
-color: white;
-border: 2px solid #000000;
-border-radius: 15px;
+background-color: #050505;
+color: rgb(0, 255, 0);
+border: 2px solid rgb(0, 255, 0);
+border-radius: 0px;
 padding: 10px 14px;
 font-size: 14px;
 display: inline-block;
 padding-left: 10px;
+font-family: 'Courier New', Courier, monospace;
+}
+.button:hover{
+border-color: rgb(0, 150, 0);
+color: rgb(0, 150, 0);
 }
 blockquote {
 border-left-style: dotted;
@@ -95,7 +134,7 @@ color: #FFFFFF;
 padding: 10px;
 }
 ul {list-style: none;}
-ul li::before {content: ">>  "; color: #B5E853;}
+ul li::before {content: ">>  "; color: rgb(0, 255, 0);}
 ol {display: table; margin-left: 0; margin-right: auto; list-style-position: inside;}
 /*  font style  */
 .bold {font-weight: bold;}
@@ -104,14 +143,18 @@ ol {display: table; margin-left: 0; margin-right: auto; list-style-position: ins
 .overline {text-decoration: overline;}
 .strickthrough {text-decoration: line-through;}
 .underline {text-decoration: underline;}
-.keyword {color: #E867E8; border: 1px solid gray; background-color: black; padding: 2px 2px; }
-.linkk {color: #6CBDEC; text-decoration: underline;}
+.keyword {color: rgb(0, 255, 0); border: 1px solid gray; background-color: black; padding: 2px 2px; }
+.linkk {color: rgb(0, 255, 0); text-decoration: underline;}
+.linkk:hover {color: rgb(0, 150, 0); text-shadow:
+    0 0 10px rgb(0, 49, 0),
+    0 0 92px rgb(0, 71, 0),
+    0 0 100px rgb(0, 60, 0);}
 .w3-black,.w3-hover-black:hover{color:#BAB9B9!important;background-color:#000!important}
 /* margin for button */
 .leftmar {margin-left: 30px;}
 /* font colour*/
 .gray {color: #8D8D8D;}
-.green {color: #B5E853;}
+.green {color: rgb(0, 255, 0);}
 /* padding */
 .topp {padding-top: 10px;}
 .left {padding-left: 30px}
