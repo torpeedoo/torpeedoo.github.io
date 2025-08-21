@@ -116,31 +116,8 @@
       }
     }
 
-    let frames = 0;
-    let animation = setInterval(() => {
-      draw();
-      frames++;
 
-      // Estimate how many frames it takes for drops to reach the bottom
-      // canvas.height / fontSize ≈ number of steps for a full drop
-      let maxFrames = Math.floor(canvas.height / fontSize); // +50 buffer
-
-      if (frames > maxFrames) {
-        clearInterval(animation);
-
-        // Fade out effect
-        let opacity = 1;
-        let fade = setInterval(() => {
-          opacity -= 0.02; // speed of fade
-          canvas.style.opacity = opacity;
-
-          if (opacity <= 0) {
-            clearInterval(fade);
-            canvas.style.display = "none"; // hide completely when done
-          }
-        }, 50); // fade interval
-      }
-    }, 35);
+    setInterval(draw, 35);
 
       
     // Resize handler
