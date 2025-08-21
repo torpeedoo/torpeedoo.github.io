@@ -12,21 +12,21 @@
     /* Matrix Section Styling */
     .matrix-section {
       position: relative;
-      height: 1080px; /* adjust height as needed */
-      background: #050505;
-      overflow: hidden;
+      height: auto; /* let it expand as needed */
     }
+    
     .matrixCanvas {
-      position: fixed;
+      position: fixed;      /* fixed to cover viewport */
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -1;
+      z-index: -1;          /* behind header */
     }
+    
     .matrix-overlay {
       position: relative;
-      z-index: 1;
+      z-index: 1;           /* header content above canvas */
       text-align: center;
       top: 50%;
       transform: translateY(-50%);
@@ -65,8 +65,8 @@
     const ctx = canvas.getContext("2d");
 
     function resizeCanvas() {
-      canvas.width = canvas.parentElement.offsetWidth;
-      canvas.height = canvas.parentElement.offsetHeight;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
     resizeCanvas();
 
