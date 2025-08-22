@@ -109,7 +109,7 @@
         const text = chars.charAt(Math.floor(Math.random() * chars.length));
         ctx.fillText(text, i * fontSize+250, drops[i] * fontSize);
 
-        if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        if(drops[i] * fontSize > canvas.height && Math.random() > 0.995) {
           drops[i] = 0;
         }
         drops[i]++;
