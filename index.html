@@ -48,9 +48,10 @@
 <section class="matrix-section">
   <canvas id="cubeCanvas"></canvas>
   <div class="matrix-overlay">
-    <h2></h2>
-    <a class="left navbar" href="/index.html">C:/users/marcus</a>
-    <a href="pages/projects.html" class="navbar" style="margin-left: 40px;">- projects</a>
+      <!-- heading 1 -->
+      <a class="left navbar" style="padding-top: 30px;" href="/index.html">C:/users/marcus</a> <a href="projects.html" class="navbar" style="position: absolute; top: 20px; left: 230px;">projects</a>
+      <!-- horizontal rule-->
+      <hr class="hr" style="position: relative; top: 5px;"
   </div>
 </section>
 
@@ -85,7 +86,7 @@ function rotateY([x,y,z],theta){
   return [x*Math.cos(theta)+z*Math.sin(theta), y, -x*Math.sin(theta)+z*Math.cos(theta)];
 }
 function project([x,y,z]){
-  const scale = 200/(z+5);
+  const scale = 400/(z+5);
   return [x*scale, y*scale];
 }
 
@@ -94,9 +95,9 @@ function draw(){
   ctx.fillRect(0,0,canvas.width,canvas.height);
 
   ctx.strokeStyle = "#0f0";
-  ctx.lineWidth = 2;
-  ctx.shadowBlur = 12;
-  ctx.shadowColor = "#0f0";
+  ctx.lineWidth = 5;
+  ctx.shadowBlur = 1;
+  ctx.shadowColor = "#0";
 
   let rotated = vertices.map(v=>{
     v = rotateX(v, angle*0.7);
