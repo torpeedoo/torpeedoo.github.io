@@ -15,10 +15,6 @@
       margin: 0;
       background: #000;
     }
-    .matrix-section {
-      position: relative;
-      height: 100vh;
-    }
     #cubeCanvas {
       position: fixed;
       top: 0; left: 0;
@@ -26,36 +22,16 @@
       height: 100%;
       z-index: -1;
     }
-    .matrix-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      padding: 20px;
-      z-index: 1;
-      color: #0f0;
-      text-shadow: 0 0 10px #0f0;
-      pointer-events: none;
-    }
-    .matrix-overlay a {
-      pointer-events: auto;
-      color: #0f0;
-      text-decoration: none;
-    }
   </style>
 </head>
 <body>
 
 
-<div style="padding-top: 30px">
-  <!-- heading 1 -->
-   <a class="left navbar" style="padding-top: 30px;" href="index.html">C:/users/marcus</a> <a href="pages/projects.html" class="navbar" style="position: left: 230px;">projects</a>
+<div style="padding-top: 20px">
+   <a class="left navbar" style="padding-top: 30px;" href="index.html">C:/users/marcus</a> <a href="pages/projects.html" class="navbar" style="position: relative; left: 17px;">projects</a>
 </div>
   
-<section class="matrix-section">
-  <canvas id="cubeCanvas"></canvas>
-  <div class="matrix-overlay">
-  </div>
-</section>
+<canvas id="cubeCanvas"></canvas>
 
 <script>
 const canvas = document.getElementById("cubeCanvas");

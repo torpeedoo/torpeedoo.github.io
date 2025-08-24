@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+   <head>
+      <link rel="icon" href="/assets/img/ico.PNG">
+      <title>Marcus' Portfolio</title>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="../assets/css/main.css">
+      <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?autoload=true&amp;skin=sunburst&amp;lang=css" defer=""></script>
+      <!-- Version 1.0.1-->
+   </head>
+   <body>
+      <h2></h2>
+      <!-- heading 1 -->
+      <a class="left navbar" style="padding-top: 30px;" href="/index.html">C:/users/marcus</a> <a href="projects.html" class="navbar" style="position: absolute; top: 20px; left: 230px;">projects</a>
+      <!-- horizontal rule-->
+      <hr class="hr" style="position: relative; top: 5px;">
+      <br>
+      
+
+	<h1 id="linear-regression">Linear Regression</h1>
+<p>Linear regression is the process of mapping a linear funciton to a dataset; by doing this we can predict unknown values with a good ammount of accuracy. When fist designing our learning algorithm we need to figure out how to represent the hypothesis <strong>h</strong>, which is the prediction function. In Linear Regression we can represent the hypothesis with the following equation:</p>
+<p>$$h(x) = \theta_0 + \theta_1x$$</p>
+<p>The goal of our learning algorithm is to minimize our cost function. In this case it can be represented with this equation </p>
+<p>$$J(\theta) = \frac{1}{2} \sum _{i=1}^m (h(x^{(i)}) - y^{(i)})^2$$</p>
+<p>This equation represents the sum of all the predicted values $h(x)$ minus the actual values $y$ in the entire dataset. We can then change theta to reduce the output of the function. The half constant is only to make the math easier down the line. </p>
+<h2 id="how-can-we-optimize-the-cost-function-">How can we optimize the cost function?</h2>
+<p>To optimize the loss function we want to change our theta values so that the loss function can be minimized. This can be done through the use of gradient descent, below we can see a graph of the loss function based on theta one and two. Generally Gradient Descent takes a step in the steepest direction downward each iteration, hopefully ending in the lowest point.</p>
+<p><img src="/rsr/GD.PNG" alt=""></p>
+<p>We can formally define our gradient descent function as follows:</p>
+<p>$$(\theta_j := \theta<em>j - \alpha \sum</em>{i=1}^m (h(x^{(i)})-y^{(i)})*x<em>j^{(i)})</em>{(j=1...n)}$$</p>
+<p>where $(h(x)-y)*x_j$ is the partial derivative of $J(\theta)$ with respect to $\theta_j$. we repeat this update of $\theta_j$ until convergence.</p>
+<p><strong>If our learning rate $\alpha$ is too large me may overshoot the minimum. On the other hand if it is too small it will be very slow.</strong></p>
+<p>This is known as <strong>batch</strong> gradient descent which is great in the case of smaller data sets but falls short when used with large data sets.</p>
+<p>Another option when using large datasets would be to use <strong>stochastic</strong> gradient descent which instead of iterating over the loss function for all the elements in the set we instead only use one example and iterate over that example each step in the process. which would give us the following equation:</p>
+<p>$$(\theta_j := \theta_j - \alpha(h(x^{(i)})-y^{(i)})*x<em>j^{(i)})</em>{(j=1...n)}$$</p>
+<p>The flaw of this method is that it will never truly converge, leaving us with a less than optimal hypothesis equation. But this is the more common method just because of how slow batch Gradient Descent is in practice. Using stochastic and also decreasing the learning rate with each iteration also works well because it will bounce around a smaller area in the end, making for a more accurate result.</p>
+<h2 id="implementing-these-concepts-into-python">Implementing these concepts into python</h2>
+<p>The first step I took when implementing these principles into python was to define a function holding our hypothesis equation.</p>
+<pre><code class="lang-python">def hypothesis_equation(<span class="hljs-keyword">input</span>, params):
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">type</span>(<span class="hljs-keyword">input</span>) == <span class="hljs-string">"list"</span>:
+        outputs = []
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-keyword">input</span>:
+            outputs.<span class="hljs-keyword">append</span>(params[0] + params[1]*<span class="hljs-keyword">input</span>)
+        <span class="hljs-keyword">return</span> outputs
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">return</span> params[0] + params[1]*<span class="hljs-keyword">input</span>
+</code></pre>
+<p>My next step was to define my gradient descent function. This includes code to plot the hypothesis function with the new parameters so we can make an animation later.</p>
+<pre><code class="lang-python">def stoch_gradient_descent(learning_rate, x, y, iterations, params):<span class="hljs-type"></span>
+    <span class="hljs-keyword">new</span><span class="hljs-type">_params</span> = params
+    total_its = <span class="hljs-number">0</span>
+
+    <span class="hljs-meta">#loop through each feature</span>
+    <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, len(params)):<span class="hljs-type"></span>
+
+        <span class="hljs-meta">#number of descent iterations</span>
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, iterations):<span class="hljs-type"></span>
+            total_its = total_its+<span class="hljs-number">1</span>
+            <span class="hljs-keyword">new</span><span class="hljs-type">_params</span>[p] = <span class="hljs-keyword">new</span><span class="hljs-type">_params</span>[p] - learning_rate*(hypothesis_equation(x[i], <span class="hljs-keyword">new</span><span class="hljs-type">_params</span>) - y[i])*x[i]
+            plt.plot(x, y,<span class="hljs-string">'.'</span>,label=<span class="hljs-string">'training data'</span>)
+            plt.plot(x, hypothesis_equation(x, <span class="hljs-keyword">new</span><span class="hljs-type">_params</span>))
+            plt.xlabel(<span class="hljs-string">'x'</span>);plt.ylabel(<span class="hljs-string">'y'</span>)
+            plt.title(<span class="hljs-string">'LR'</span>)
+            plt.savefig(<span class="hljs-string">'iteration_'</span>+str(total_its))
+            plt.clf()
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span><span class="hljs-type">_params</span>
+</code></pre>
+<p>Finally, all we have to do is to run these function to train our algorithm.</p>
+<pre><code class="lang-python"><span class="hljs-attr">data</span> = make_data(<span class="hljs-number">100</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">20</span>, <span class="hljs-literal">True</span>, np.random.randint(<span class="hljs-number">1</span>, <span class="hljs-number">100</span>))
+<span class="hljs-attr">x</span> = data[<span class="hljs-number">0</span>]
+<span class="hljs-attr">y</span> = data[<span class="hljs-number">1</span>]
+<span class="hljs-attr">def_params</span> = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>]
+
+<span class="hljs-attr">hvals</span> = hypothesis_equation(x, def_params)
+
+<span class="hljs-attr">new_params</span> = stoch_gradient_descent(<span class="hljs-number">0.0002</span>, x, y, <span class="hljs-number">100</span>, def_params)
+</code></pre>
+<p>When we run this we get a set of images we can turn into an animation.</p>
+<p><img src="/rsr/LR_anim.gif" alt=""></p>
+<h2 id="resources">Resources</h2>
+<p><a href="https://youtube.com/playlist?list=PLoROMvodv4rMiGQp3WXShtMGgzqpfVfbU&amp;si=jh4EJ8Pf7Z7miBP8">Stanford CS229</a></p>
+
+	
+
+
+      <!-- footer -->
+      <footer>
+         <button onclick="topFunction()" class="button leftmar " style="position: relative; top: 30px;">To Top</button>
+      </footer>
+      
+      <script> // js for scroll to TOP
+      function topFunction() {
+      
+      document.body.scrollTop = 0; // For Safari
+      
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+      
+      }
+      
+      
+      </script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+      <script src="assets/js/ip.js"> </script>
+      
+   </div>
+</body>
+</html>
