@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+   <head>
+      <link rel="icon" href="assets/img/ico.PNG">
+      <title>Marcus' Portfolio</title>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="../assets/css/main.css">
+      <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?autoload=true&amp;skin=sunburst&amp;lang=css" defer=""></script>
+      <!-- Version 1.0.1-->
+                        <style>
+                              .container {
+                                    max-width: 900px;
+                                    margin: 40px auto;
+                                    background: rgba(12, 12, 12, 0);
+                                    padding: 32px 24px 24px 24px;
+                                    border-radius: 12px;
+                                    box-shadow: 0 2px 16px rgb(0, 0, 0);
+                              }
+                              .projects-list {
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 2em;
+                              }
+                              .project-card {
+                                      background: transparent;
+                                      border: 2px solid #0f0;
+                                      border-radius: 8px;
+                                      padding: 1.5em 1.5em 1em 1.5em;
+                                      box-shadow: none;
+                                      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+                              }
+                              .project-card:hover {
+                                      transform: translateY(-4px) scale(1.01);
+                                      border-color: #6f6;
+                                      box-shadow: 0 4px 16px rgb(0, 0, 0);
+                              }
+                              .project-card a {
+                                    font-size: 1.3em;
+                                    color: #0f0;
+                                    text-decoration: none;
+                                    font-weight: bold;
+                              }
+                              .project-card p {
+                                    margin: 0.7em 0 0 0;
+                                    color: #0f0;
+                              }
+                              @media (max-width: 600px) {
+                                    .container { padding: 12px 2vw; }
+                                    .project-card { padding: 1em 0.7em 0.7em 0.7em; }
+                              }
+                        </style>
+   </head>
+   <body>
+      <h2></h2>
+      <!-- heading 1 -->
+      <a class="left navbar" style="padding-top: 30px;" href="../index.html">C:/users/marcus</a> <a href="projects.html" class="navbar" style="position: absolute; top: 20px; left: 230px;">projects</a>
+      <!-- horizontal rule-->
+      <hr class="hr" style="position: relative; top: 5px;">
+   
+
+                  <div class="container">
+                        <div class="projects-list">
+                              
+
+                              <div class="project-card">
+                                    <a href="project2.html">Linear Regression</a>
+                                    <p>A write-up on creating a linear regression algorithm from scratch.</p>
+                              </div>
+                        </div>
+                  </div>
+
+
+      <!-- footer -->
+      <footer>
+         <button onclick="topFunction()" class="button leftmar " style="position: relative; top: 30px;">To Top</button>
+      </footer>
+      
+      <script> // js for scroll to TOP
+      function topFunction() {
+      
+      document.body.scrollTop = 0; // For Safari
+      
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+      
+      }
+      
+      
+      </script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+      <script src="assets/js/ip.js"> </script>
+      
+   </div>
+</body>
+</html>

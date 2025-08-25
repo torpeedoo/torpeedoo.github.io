@@ -57,6 +57,7 @@ const edges = [
 ];
 
 let angle = 0;
+let lastTimestamp = null;
 function rotateX([x,y,z],theta){
   return [x, y*Math.cos(theta)-z*Math.sin(theta), y*Math.sin(theta)+z*Math.cos(theta)];
 }
@@ -68,7 +69,11 @@ function project([x,y,z]){
   return [x*scale, y*scale];
 }
 
-function draw(){
+function draw(timestamp){
+  if (!lastTimestamp) lastTimestamp = timestamp;
+  const deltaTime = (timestamp - lastTimestamp) / 1000; // seconds
+  lastTimestamp = timestamp;
+
   ctx.fillStyle = "rgba(0,0,0,0.2)";
   ctx.fillRect(0,0,canvas.width,canvas.height);
 
@@ -92,10 +97,11 @@ function draw(){
   });
   ctx.stroke();
 
-  angle += 0.03;
+  // 1.5 radians per second (adjust for desired speed)
+  angle += 2 * deltaTime;
   requestAnimationFrame(draw);
 }
-draw();
+requestAnimationFrame(draw);
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
