@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+   <head>
+      <link rel="icon" href="/assets/img/ico.PNG">
+      <title>Torpeedoo</title>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="../assets/css/main.css">
+      <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?autoload=true&amp;skin=sunburst&amp;lang=css" defer=""></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      <script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+            <style>
+                .container {
+                    max-width: 800px;
+                    margin: 40px auto;
+                    background: rgba(12, 12, 12, 0);
+                    padding: 32px 24px 24px 24px;
+                    border-radius: 12px;
+                    box-shadow: 0 2px 16px #000a;
+                    
+                }
+                .container p {
+                    line-height: 1.7;
+                    margin-bottom: 1.1em;
+                }
+                .container pre {
+                    background: #181818;
+                    color: #eee;
+                    border-radius: 7px;
+                    padding: 1em 1.2em;
+                    overflow-x: auto;
+                    margin-bottom: 1.5em;
+                    font-size: 1em;
+                }
+                .container code {
+                    color: #0f0;
+                    border-radius: 4px;
+                    padding: 2px 6px;
+                    font-family: 'Fira Mono', 'Consolas', 'Menlo', 'Monaco', monospace;
+                    font-size: 1em;
+                }
+                .container hr {
+                    border: none;
+                    border-top: 2px solid #0f0;
+                    margin: 2em 0;
+                }
+            </style>
+   
+   
+    </head>
+   <body>
+      <h2></h2>
+      <!-- heading 1 -->
+      <a class="left navbar" style="padding-top: 30px;" href="../index.html">C:/users/marcus</a> <a href="projects.html" class="navbar" style="position: absolute; top: 20px; left: 230px;">projects</a>
+      <!-- horizontal rule-->
+      <hr class="hr" style="position: relative; top: 5px;">
+      <br>
+
+<div class="container">
+
+   <h1>PyPortScan</h1>
+
+   <p>PyPortScan is a Python based port scanning tool designed to identify open ports on a target system. 
+      It uses the Scapy and Socket libraries to send TCP SYN packets to specified ports and analyze the responses to determine their status. 
+      The tool is capable of scanning a range of ports, making it useful for network security assessments and vulnerability analysis.</p>
+
+   <hr>
+
+   <h2>Features</h2>
+   <ul>
+      <li>Scans a single, list, or range of ports on a target IP address.</li>
+      <li>Identifies open and closed ports.</li>
+      <li>Simple host discovery on local network.</li>
+      <li>Provides a simple command-line interface for ease of use and automation.</li>
+   </ul>
+
+   <hr>
+
+   <h2>Usage</h2>
+   <pre><code>python main.py &lt;scan_function&gt; &lt;target_ip&gt; &lt;port(s)&gt;</code></pre>
+   <p>Replace &lt;scan_function&gt; with one of the following options:</p>
+   <ul>
+      <li><code>single</code>: Scan a single port.
+      <li> <code>list</code>: Scan a list of ports.
+      <li><code>range</code>: Scan a range of ports.
+      <li><code>local</code>: Simple host discovery on local network.
+   </ul>
+   <hr>
+
+   <h2>Example scan</h2>
+   <pre><code>python main.py single scanme.nmap.org 80</code></pre>
+   <p>This command scans port 80 on the target IP address scanme.nmap.org and returns: </p>
+
+   <pre><code>
+   Starting scan...
+   Port 80 is open on 45.33.32.156
+   Total scan time: 0.12 seconds
+   </code></pre>
+   <hr>
+
+   <h2>Code Implementation</h2>
+
+   <p>The scanner logic is implemented in a <code>Scanner</code> class within <code>functions.py</code>. 
+   It handles different scanning modes (single, list, range, and local discovery) and provides both standard and stealth scanning methods.</p>
+
+   <pre><code>
+class Scanner:
+    def __init__(self, ip, timeout=0.1):
+        self.timeout = timeout
+        self.ip = self.resolve_ip(ip)
+
+    def scan_port(self, port):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.settimeout(self.timeout)
+            result = s.connect_ex((self.ip, port))
+            return result == 0
+   </code></pre>
+
+   <p>For stealth scanning, the tool uses <code>scapy</code> to send crafted SYN packets without completing 
+   the TCP handshake, reducing the likelihood of detection by intrusion detection systems (IDS).</p>
+
+   <pre><code class="language-python">
+def stealth_scan_port(self, port):
+    syn_packet = IP(dst=self.ip)/TCP(dport=port, flags='S')
+    response = sr1(syn_packet, timeout=self.timeout, verbose=0)
+    if response and response.haslayer(TCP):
+        if response[TCP].flags == 0x12:  # SYN-ACK
+            return True
+    return False
+   </code></pre>
+
+   <hr>
+
+   <h2>Conclusion</h2>
+   <p>PyPortScan provides a lightweight and flexible solution for identifying open ports and active hosts 
+   on a network. By supporting both standard and stealth scanning, it balances usability and stealth for 
+   different scenarios. The modular design also makes it straightforward to extend the tool with additional 
+   features such as banner grabbing, service identification, or exporting results in machine-readable formats.</p>
+
+   
+</div>
+
+
+      <!-- footer -->
+      <footer>
+         <button onclick="topFunction()" class="button leftmar " style="position: relative; top: 30px;">To Top</button>
+      </footer>
+      
+      <script> // js for scroll to TOP
+      function topFunction() {
+      
+      document.body.scrollTop = 0; // For Safari
+      
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+      
+      }
+      
+      
+      </script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+      <script src="assets/js/ip.js"> </script>
+      
+</body>
+</html>
