@@ -101,7 +101,14 @@ function draw(timestamp){
   angle += 2 * deltaTime;
   requestAnimationFrame(draw);
 }
-requestAnimationFrame(draw);
+
+function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+if (!isMobileDevice()) {
+  requestAnimationFrame(draw);
+}
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
