@@ -1,117 +1,428 @@
-<!doctype html>
-<html>
+﻿<!doctype html>
+<html lang="en">
 <head>
-  <link rel="icon" href="assets/img/ico.PNG">
-  <title>Torpeedoo</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="assets/css/main.css">
-  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?autoload=true&amp;skin=sunburst&amp;lang=css" defer></script>
-  <!-- Version 1.0.1-->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
     body {
-      overflow: hidden; /* disables scrolling */
-      height: 100vh;
       margin: 0;
+      height: 100%;
       background: #000;
     }
-    #cubeCanvas {
-      position: fixed;
-      top: 0; left: 0;
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    main {
+      height: 100vh;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      background: #000;
+    }
+
+    main::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+
+    .frame {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.65rem;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      padding: 1rem;
+    }
+
+    .slice {
+      width: min(84vw, 640px);
+      aspect-ratio: 1.2 / 1;
+      position: relative;
+      display: block;
+      border-radius: 50% 50% 48% 52% / 55% 52% 48% 45%;
+      overflow: hidden;
+      filter: contrast(1.08) brightness(1.02);
+      transform-origin: 50% 50%;
+      animation: wobbleA 7.2s ease-in-out infinite;
+      cursor: pointer;
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      box-shadow: 0 0 14px rgba(255, 255, 255, 0.12);
+      isolation: isolate;
+    }
+
+    .fractal {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
-      z-index: -1;
+      display: block;
+      z-index: 0;
+      image-rendering: auto;
+    }
+
+    .slice::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, transparent 0 42%, rgba(0, 0, 0, 0.36) 78%, rgba(0, 0, 0, 0.75) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .slice::after {
+      content: "";
+      position: absolute;
+      top: 13%;
+      bottom: 13%;
+      left: 50%;
+      width: 1px;
+      transform: translateX(-50%);
+      background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.65), transparent);
+      opacity: 0.7;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    .center-hotspot {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: clamp(70px, 14vw, 96px);
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.48);
+      background: rgba(255, 255, 255, 0.06);
+      z-index: 3;
+    }
+
+    .slice-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.98);
+      color: #ff2b2b;
+      text-transform: lowercase;
+      letter-spacing: 0.08em;
+      font-size: clamp(0.72rem, 1.4vw, 0.9rem);
+      opacity: 0;
+      transition: opacity 180ms ease, transform 180ms ease;
+      z-index: 4;
+      pointer-events: none;
+      white-space: nowrap;
+      text-shadow: 0 0 12px rgba(255, 43, 43, 0.45);
+    }
+
+    .about {
+      transform: scale(0.86);
+      border-radius: 48% 52% 49% 51% / 58% 54% 46% 42%;
+      animation-name: wobbleA;
+      animation-duration: 7.2s;
+    }
+
+    .projects {
+      transform: scale(1);
+      border-radius: 54% 46% 52% 48% / 54% 49% 51% 46%;
+      animation-name: wobbleB;
+      animation-duration: 6.6s;
+    }
+
+    .contact {
+      transform: scale(0.9);
+      border-radius: 50% 50% 47% 53% / 56% 53% 47% 44%;
+      animation-name: wobbleC;
+      animation-duration: 7.9s;
+    }
+
+    .slice:hover,
+    .slice:focus-visible {
+      outline: none;
+      filter: contrast(1.13) brightness(1.06);
+      border-color: rgba(255, 255, 255, 0.72);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .slice:hover .slice-label,
+    .slice:focus-visible .slice-label {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .slice-dots {
+      position: fixed;
+      right: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: grid;
+      gap: 0.7rem;
+      z-index: 10;
+    }
+
+    .slice-dots a {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.2);
+      display: block;
+      transition: transform 160ms ease, background 160ms ease;
+    }
+
+    .slice-dots a.active,
+    .slice-dots a:hover,
+    .slice-dots a:focus-visible {
+      background: #ff2b2b;
+      transform: scale(1.2);
+      outline: none;
+    }
+
+    @keyframes wobbleA {
+      0%,
+      100% { transform: scale(0.86) rotate(-1.2deg) skewX(0deg); }
+      25% { transform: scale(0.875) rotate(0.8deg) skewX(0.8deg); }
+      50% { transform: scale(0.845) rotate(-0.7deg) skewX(-0.6deg); }
+      75% { transform: scale(0.87) rotate(1deg) skewX(0.5deg); }
+    }
+
+    @keyframes wobbleB {
+      0%,
+      100% { transform: scale(1) rotate(1deg) skewY(0deg); }
+      33% { transform: scale(1.015) rotate(-0.9deg) skewY(0.7deg); }
+      66% { transform: scale(0.985) rotate(0.8deg) skewY(-0.6deg); }
+    }
+
+    @keyframes wobbleC {
+      0%,
+      100% { transform: scale(0.9) rotate(-0.8deg) skewX(0deg); }
+      30% { transform: scale(0.915) rotate(0.9deg) skewX(-0.6deg); }
+      60% { transform: scale(0.89) rotate(-1deg) skewX(0.7deg); }
+    }
+
+    @media (max-width: 720px) {
+      .slice {
+        width: min(92vw, 540px);
+      }
+
+      .slice-label {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
     }
   </style>
 </head>
 <body>
+  <nav class="slice-dots" aria-label="Slice navigation">
+    <a href="#about-slice" aria-label="Go to About slice"></a>
+    <a href="#projects-slice" aria-label="Go to Projects slice"></a>
+    <a href="#contact-slice" aria-label="Go to Contact slice"></a>
+  </nav>
 
+  <main aria-label="MRI slice navigation">
+    <section class="frame" id="about-slice">
+      <a class="slice about" href="about.html" aria-label="Open About page">
+        <canvas class="fractal" data-fractal="julia" data-cx="-0.56" data-cy="0.34" data-zoom="1.34"></canvas>
+        <span class="sr-only">About</span>
+        <span class="center-hotspot" aria-hidden="true"></span>
+        <span class="slice-label">about me</span>
+      </a>
+    </section>
+    <section class="frame" id="projects-slice">
+      <a class="slice projects" href="projects.html" aria-label="Open Projects page">
+        <canvas class="fractal" data-fractal="julia" data-cx="-0.14" data-cy="0.74" data-zoom="1.5"></canvas>
+        <span class="sr-only">Projects</span>
+        <span class="center-hotspot" aria-hidden="true"></span>
+        <span class="slice-label">projects</span>
+      </a>
+    </section>
+    <section class="frame" id="contact-slice">
+      <a class="slice contact" href="contact.html" aria-label="Open Contact page">
+        <canvas class="fractal" data-fractal="julia" data-cx="0.31" data-cy="-0.52" data-zoom="1.42"></canvas>
+        <span class="sr-only">Contact</span>
+        <span class="center-hotspot" aria-hidden="true"></span>
+        <span class="slice-label">contact</span>
+      </a>
+    </section>
+  </main>
+  <script>
+    const frames = document.querySelectorAll(".frame");
+    const dots = document.querySelectorAll(".slice-dots a");
 
-<div style="padding-top: 20px">
-   <a class="left navbar" style="padding-top: 30px;" href="index.html">C:/users/marcus</a> <a href="pages/projects.html" class="navbar" style="position: relative; left: 17px;">projects</a>
-</div>
-  
-<canvas id="cubeCanvas"></canvas>
+    const setActiveDot = (id) => {
+      dots.forEach((dot) => {
+        dot.classList.toggle("active", dot.getAttribute("href") === "#" + id);
+      });
+    };
 
-<script>
-const canvas = document.getElementById("cubeCanvas");
-const ctx = canvas.getContext("2d");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveDot(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.6 }
+    );
 
-function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener("resize", resize);
+    frames.forEach((frame) => observer.observe(frame));
+    setActiveDot("about-slice");
 
-const vertices = [
-  [-1,-1,-1],[1,-1,-1],
-  [1,1,-1],[-1,1,-1],
-  [-1,-1,1],[1,-1,1],
-  [1,1,1],[-1,1,1]
-];
-const edges = [
-  [0,1],[1,2],[2,3],[3,0],
-  [4,5],[5,6],[6,7],[7,4],
-  [0,4],[1,5],[2,6],[3,7]
-];
+    const pointer = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5 };
+    const mobileTimeMode = window.matchMedia("(max-width: 720px), (pointer: coarse)").matches;
+    const updatePointer = (clientX, clientY) => {
+      pointer.tx = Math.min(1, Math.max(0, clientX / window.innerWidth));
+      pointer.ty = Math.min(1, Math.max(0, clientY / window.innerHeight));
+    };
 
-let angle = 0;
-let lastTimestamp = null;
-function rotateX([x,y,z],theta){
-  return [x, y*Math.cos(theta)-z*Math.sin(theta), y*Math.sin(theta)+z*Math.cos(theta)];
-}
-function rotateY([x,y,z],theta){
-  return [x*Math.cos(theta)+z*Math.sin(theta), y, -x*Math.sin(theta)+z*Math.cos(theta)];
-}
-function project([x,y,z]){
-  const scale = 400/(z+5);
-  return [x*scale, y*scale];
-}
+    if (!mobileTimeMode) {
+      window.addEventListener("mousemove", (e) => updatePointer(e.clientX, e.clientY), { passive: true });
+      window.addEventListener("touchmove", (e) => {
+        const t = e.touches[0];
+        if (t) {
+          updatePointer(t.clientX, t.clientY);
+        }
+      }, { passive: true });
+    }
 
-function draw(timestamp){
-  if (!lastTimestamp) lastTimestamp = timestamp;
-  const deltaTime = (timestamp - lastTimestamp) / 1000; // seconds
-  lastTimestamp = timestamp;
+    const fractalViews = [...document.querySelectorAll(".fractal")].map((canvas) => {
+      const ctx = canvas.getContext("2d", { alpha: false });
+      return {
+        canvas,
+        ctx,
+        type: canvas.dataset.fractal,
+        baseCx: Number(canvas.dataset.cx || -0.7),
+        baseCy: Number(canvas.dataset.cy || 0.27),
+        baseZoom: Number(canvas.dataset.zoom || 1.35),
+        imageData: null,
+        pixels: null,
+        w: 0,
+        h: 0,
+      };
+    });
 
-  ctx.fillStyle = "rgba(0,0,0,0.2)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
+    function resizeCanvas(view) {
+      const rect = view.canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const targetW = Math.max(220, Math.floor(rect.width * dpr * 0.62));
+      const targetH = Math.max(180, Math.floor(rect.height * dpr * 0.62));
 
-  ctx.strokeStyle = "#0f0";
-  ctx.lineWidth = 5;
-  ctx.shadowBlur = 1;
-  ctx.shadowColor = "#0";
+      if (view.w === targetW && view.h === targetH) {
+        return;
+      }
 
-  let rotated = vertices.map(v=>{
-    v = rotateX(v, angle*0.7);
-    v = rotateY(v, angle);
-    return project(v);
-  });
+      view.w = targetW;
+      view.h = targetH;
+      view.canvas.width = targetW;
+      view.canvas.height = targetH;
+      view.imageData = view.ctx.createImageData(targetW, targetH);
+      view.pixels = view.imageData.data;
+      view.ctx.imageSmoothingEnabled = false;
+    }
 
-  ctx.beginPath();
-  edges.forEach(([a,b])=>{
-    let [x1,y1] = rotated[a];
-    let [x2,y2] = rotated[b];
-    ctx.moveTo(x1+canvas.width/2, y1+canvas.height/2);
-    ctx.lineTo(x2+canvas.width/2, y2+canvas.height/2);
-  });
-  ctx.stroke();
+    function mapRange(v, inMin, inMax, outMin, outMax) {
+      const t = (v - inMin) / (inMax - inMin);
+      return outMin + t * (outMax - outMin);
+    }
 
-  // 1.5 radians per second (adjust for desired speed)
-  angle += 2 * deltaTime;
-  requestAnimationFrame(draw);
-}
+    function shade(iter, maxIter) {
+      if (iter >= maxIter) {
+        return 0;
+      }
+      const t = iter / maxIter;
+      return Math.floor(255 * Math.pow(1 - t, 0.55));
+    }
 
-function isMobileDevice() {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
+    function renderJulia(view) {
+      const { w, h, pixels } = view;
+      const maxIter = 64;
+      const zoom = view.baseZoom + mapRange(pointer.y, 0, 1, 0.24, -0.24);
+      const cx = view.baseCx + mapRange(pointer.x, 0, 1, -0.18, 0.18);
+      const cy = view.baseCy + mapRange(pointer.y, 0, 1, -0.18, 0.18);
+      const rot = mapRange(pointer.x, 0, 1, -0.35, 0.35);
+      const cos = Math.cos(rot);
+      const sin = Math.sin(rot);
+      let i = 0;
 
-if (!isMobileDevice()) {
-  requestAnimationFrame(draw);
-}
-</script>
+      for (let py = 0; py < h; py++) {
+        const ny = (py / h - 0.5) * zoom * 2;
+        for (let px = 0; px < w; px++) {
+          const nx = (px / w - 0.5) * zoom * 2.2;
+          let zx = nx * cos - ny * sin;
+          let zy = nx * sin + ny * cos;
+          let iter = 0;
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
-<script src="assets/js/ip.js"> </script>
+          while (zx * zx + zy * zy < 4 && iter < maxIter) {
+            const x2 = zx * zx - zy * zy + cx;
+            zy = 2 * zx * zy + cy;
+            zx = x2;
+            iter++;
+          }
+
+          const c = shade(iter, maxIter);
+          pixels[i++] = c;
+          pixels[i++] = c;
+          pixels[i++] = c;
+          pixels[i++] = 255;
+        }
+      }
+    }
+
+    function renderView(view) {
+      if (!view.ctx) {
+        return;
+      }
+
+      resizeCanvas(view);
+      renderJulia(view);
+      view.ctx.putImageData(view.imageData, 0, 0);
+    }
+
+    function animate() {
+      if (mobileTimeMode) {
+        const t = performance.now() * 0.00035;
+        pointer.tx = 0.5 + 0.32 * Math.cos(t * 1.7);
+        pointer.ty = 0.5 + 0.32 * Math.sin(t * 1.15);
+      }
+
+      pointer.x += (pointer.tx - pointer.x) * 0.08;
+      pointer.y += (pointer.ty - pointer.y) * 0.08;
+
+      fractalViews.forEach((view) => renderView(view));
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener("resize", () => {
+      fractalViews.forEach((view) => {
+        view.w = 0;
+        view.h = 0;
+      });
+    });
+
+    animate();
+  </script>
 </body>
 </html>

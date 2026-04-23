@@ -1,0 +1,117 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects | Your Name</title>
+  <link rel="stylesheet" href="subpage.css" />
+  <style>
+    .posts-shell {
+      width: min(1080px, 100%);
+      margin: 0 auto;
+    }
+
+    .bubble-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .bubble {
+      text-decoration: none;
+      color: #111;
+      width: 100%;
+      aspect-ratio: 1.2 / 1;
+      position: relative;
+      border-radius: 52% 48% 50% 50% / 58% 53% 47% 42%;
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      background: #d7d7d7;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.08), inset 0 0 32px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      isolation: isolate;
+      animation: bubbleWobble 9.5s ease-in-out infinite;
+      transform-origin: center;
+      transition: border-color 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+      text-align: center;
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: lowercase;
+    }
+
+    .bubble::before {
+      content: none;
+    }
+
+    .bubble::after {
+      content: none;
+    }
+
+    .bubble:nth-child(2) {
+      animation-duration: 10.4s;
+      animation-delay: -1.4s;
+    }
+
+    .bubble:nth-child(3) {
+      animation-duration: 11.1s;
+      animation-delay: -2.2s;
+    }
+
+    .bubble:hover,
+    .bubble:focus-visible {
+      border-color: rgba(255, 43, 43, 0.7);
+      box-shadow: 0 0 24px rgba(255, 43, 43, 0.18), inset 0 0 32px rgba(0, 0, 0, 0.5);
+      filter: contrast(1.1) brightness(1.05);
+      outline: none;
+    }
+
+    @keyframes bubbleWobble {
+      0%,
+      100% { transform: scale(0.97) rotate(-1.1deg) skewX(0deg); }
+      25% { transform: scale(0.985) rotate(0.7deg) skewX(0.6deg); }
+      50% { transform: scale(0.96) rotate(-0.6deg) skewX(-0.5deg); }
+      75% { transform: scale(0.98) rotate(0.9deg) skewX(0.4deg); }
+    }
+
+    @media (max-width: 560px) {
+      .bubble-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bubble {
+        aspect-ratio: 1.18 / 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="home-fractal" href="index.html" aria-label="Back to home">
+    <canvas aria-hidden="true"></canvas>
+  </a>
+
+  <main class="posts-shell">
+    <section class="bubble-grid" aria-label="Post navigation">
+      <a class="bubble" href="ml-from-scratch.html" aria-label="Open ML From Scratch">
+        <span>ml from scratch</span>
+      </a>
+
+      <a class="bubble" href="cpp-physics.html" aria-label="Open C++ Physics Simulations">
+        <span>c++ physics simulations</span>
+      </a>
+
+      <a class="bubble" href="pyportscan.html" aria-label="Open PyPortScan post">
+        <span>python port scanner</span>
+      </a>
+
+      <a class="bubble" href="games.html" aria-label="Open Games page">
+        <span>games</span>
+      </a>
+    </section>
+  </main>
+
+  <script src="subpage-fractal.js"></script>
+</body>
+</html>

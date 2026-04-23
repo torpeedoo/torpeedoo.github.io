@@ -1,0 +1,142 @@
+﻿:root {
+  --bg: #000000;
+  --panel: #060606;
+  --line: #262626;
+  --text: #f6f6f6;
+  --muted: #b5b5b5;
+  --accent: #ff2b2b;
+  --accent-soft: rgba(255, 43, 43, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+}
+
+body {
+  font-family: "Segoe UI", "Tahoma", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1000px 650px at 50% -20%, #111 0%, transparent 68%),
+    radial-gradient(900px 560px at 50% 120%, #0d0d0d 0%, transparent 70%),
+    var(--bg);
+}
+
+.site {
+  width: min(920px, 100% - 2rem);
+  margin: 0 auto;
+  padding: clamp(1.2rem, 2.4vw, 2rem) 0 2.8rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.8rem;
+}
+
+.logo {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.42rem 0.9rem;
+  font-size: 0.93rem;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+nav a:hover,
+nav a:focus-visible {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: #fff;
+  outline: none;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4.8vw, 3rem);
+  letter-spacing: 0.015em;
+  color: #fff;
+}
+
+p {
+  margin: 0;
+  line-height: 1.68;
+  color: var(--muted);
+  max-width: 68ch;
+}
+
+.page-card {
+  background:
+    radial-gradient(circle at 85% -35%, rgba(255, 43, 43, 0.11), transparent 55%),
+    radial-gradient(circle at 8% 120%, rgba(255, 43, 43, 0.08), transparent 55%),
+    var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: clamp(1.2rem, 2.2vw, 1.9rem);
+  box-shadow: 0 0 0 1px rgba(255, 43, 43, 0.06), 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+.page-card h1 {
+  margin-bottom: 0.8rem;
+}
+
+.page-card h2 {
+  margin: 1.2rem 0 0.45rem;
+  font-size: 1.08rem;
+  color: var(--accent);
+}
+
+.page-card ul {
+  margin: 0.55rem 0 0;
+  padding-left: 1.15rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.page-card li::marker {
+  color: var(--accent);
+}
+
+.page-card a {
+  color: #ff5d5d;
+}
+
+.page-card a:hover,
+.page-card a:focus-visible {
+  color: #ff8d8d;
+}
+
+footer {
+  margin-top: 1.25rem;
+  color: #8a8a8a;
+  font-size: 0.88rem;
+}
+
+@media (max-width: 760px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
